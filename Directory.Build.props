@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <Title>Exmo API</Title>
+    <PackageDescription></PackageDescription>
+    <Authors>Evgeny Morozov</Authors>
+    <!--<IncludeSymbols>true</IncludeSymbols>-->
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/Brainman643/Exmo.git</RepositoryUrl>
+    <!--<AssemblyOriginatorKeyFile>MyKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+</Project>
