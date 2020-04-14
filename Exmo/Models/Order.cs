@@ -1,4 +1,4 @@
-using Exmo.JsonConverters;
+using Exmo.Json.Converters;
 using Newtonsoft.Json;
 
 namespace Exmo.Models

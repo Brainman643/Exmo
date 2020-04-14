@@ -18,5 +18,10 @@ namespace Exmo
         {
             return (long)GetUnixTimeSpan(value).TotalMilliseconds;
         }
+
+        public static long ToUnixTimeSeconds(this DateTime value)
+        {
+            return (long)GetUnixTimeSpan(value).TotalSeconds;
+        }
     }
 }

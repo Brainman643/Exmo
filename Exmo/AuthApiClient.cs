@@ -1,30 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Exmo
 {
-    public class AuthApiClient : ApiClient
+    public class AuthApiClient : ApiClient, IAuthApiClient
     {
         private readonly string _publicKey;
         private readonly string _secretKey;
 
-        public AuthApiClient(ExmoOptions configuration)
+        public AuthApiClient(IOptions<ExmoOptions> options, HttpClient httpClient, ILogger<AuthApiClient> logger)
+            : base(options, httpClient, logger)
         {
-            _publicKey = configuration.ApiPublicKey;
-            _secretKey = configuration.ApiSecretKey;
+            _publicKey = options.Value.ApiPublicKey;
+            _secretKey = options.Value.ApiSecretKey;
         }
 
-        public AuthApiClient(string publicKey, string secretKey)
-        {
-            _publicKey = publicKey;
-            _secretKey = secretKey;
-        }
-
-        private static string Sign(string key, string message)
+        internal static string Sign(string key, string message)
         {
             using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(key)))
             {
@@ -33,7 +30,7 @@ namespace Exmo
             }
         }
 
-        protected override async Task<FormUrlEncodedContent> GetContentAsync(IList<KeyValuePair<string, string>> data)
+        protected override async Task<FormUrlEncodedContent> GetContentAsync(List<KeyValuePair<string, string>> data)
         {
             data.Add(new KeyValuePair<string, string>("nonce", Convert.ToString(Nonce.Value)));
             var content = await base.GetContentAsync(data);

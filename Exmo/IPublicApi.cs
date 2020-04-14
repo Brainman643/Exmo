@@ -18,10 +18,10 @@ namespace Exmo
         /// <summary>
         /// Книга ордеров по валютной паре.
         /// </summary>
-        /// <param name="pairs"></param>
+        /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PairDictionary<OrderBook>> GetOrderBookAsync(PairCollection pairs,
+        Task<PairDictionary<OrderBook>> GetOrderBookAsync(OrderBookRequest request,
             CancellationToken cancellationToken = default);
 
         /// <summary>

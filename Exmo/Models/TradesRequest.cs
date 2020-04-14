@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Exmo.Models
 {
-    public class PairRequest
+    internal class TradesRequest
     {
         [JsonProperty("pair")]
         public PairCollection Pairs { get; set; }

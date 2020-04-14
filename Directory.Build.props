@@ -1,18 +1,31 @@
 <Project>
   <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>RCS1090</NoWarn>
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>Exmo API</Title>
-    <PackageDescription></PackageDescription>
+    <PackageDescription>Exmo API</PackageDescription>
     <Authors>Evgeny Morozov</Authors>
-    <!--<IncludeSymbols>true</IncludeSymbols>-->
+    <IncludeSymbols>true</IncludeSymbols>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIcon>PackageIcon.svg</PackageIcon>
+    <PackageTags>Exmo;API</PackageTags>
     <RepositoryUrl>https://github.com/Brainman643/Exmo.git</RepositoryUrl>
-    <!--<AssemblyOriginatorKeyFile>MyKey.snk</AssemblyOriginatorKeyFile>
+    <Copyright>Copyright © Evgeny Morozov 2020</Copyright>
     <SignAssembly>true</SignAssembly>
-    <PublicSign>true</PublicSign>-->
+    <AssemblyOriginatorKeyFile>$(SolutionDir)Exmo.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+    <None Include="$(SolutionDir)LICENSE" Pack="true" Visible="false" PackagePath="" />
+    <None Include="$(SolutionDir)PackageIcon.svg" Pack="true" Visible="false" PackagePath=""/>
   </ItemGroup>
 </Project>

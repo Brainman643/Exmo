@@ -1,18 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
+using Exmo.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Exmo
 {
     public static class JsonToFormUrlEncodedConverter
     {
-        public static IList<KeyValuePair<string, string>> Convert(object value)
+        public static List<KeyValuePair<string, string>> Convert(object value)
         {
+            if (value is null)
+            {
+                return new List<KeyValuePair<string, string>>();
+            }
+
             var jToken = JToken.FromObject(value, JsonHelper.Serializer);
             return Convert(jToken);
         }
 
-        public static IList<KeyValuePair<string, string>> Convert(JToken value)
+        public static List<KeyValuePair<string, string>> Convert(JToken value)
         {
             return Flatten(value).ToList();
         }

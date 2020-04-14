@@ -2,7 +2,7 @@ using System;
 using Exmo.Models;
 using Newtonsoft.Json;
 
-namespace Exmo.JsonConverters
+namespace Exmo.Json.Converters
 {
     public class PairConverter : JsonConverter<Pair>
     {

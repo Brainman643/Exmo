@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace Exmo
+namespace Exmo.Json
 {
     public static class JsonSerializerExtensions
     {

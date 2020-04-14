@@ -14,7 +14,7 @@ namespace Exmo.Models
         /// <summary>
         /// Тип сделки.
         /// </summary>
-        public string Type { get; set; }
+        public TradeType Type { get; set; }
 
         /// <summary>
         /// Цена сделки.
@@ -22,7 +22,7 @@ namespace Exmo.Models
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Кол-во по сделке.
+        /// Количество по сделке.
         /// </summary>
         public decimal Quantity { get; set; }
 

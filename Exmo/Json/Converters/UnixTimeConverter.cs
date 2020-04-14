@@ -2,7 +2,7 @@
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Exmo.JsonConverters
+namespace Exmo.Json.Converters
 {
     public class UnixTimeConverter : JsonConverter<DateTime>
     {

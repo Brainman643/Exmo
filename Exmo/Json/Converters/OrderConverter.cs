@@ -3,7 +3,7 @@ using Exmo.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Exmo.JsonConverters
+namespace Exmo.Json.Converters
 {
     public class OrderConverter : JsonConverter<Order>
     {

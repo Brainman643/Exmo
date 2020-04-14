@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
 namespace Exmo.Models
 {
     public class CreateOrderRequest
@@ -11,7 +8,7 @@ namespace Exmo.Models
         public Pair Pair { get; set; }
 
         /// <summary>
-        /// Кол-во по ордеру.
+        /// Количество по ордеру.
         /// </summary>
         public decimal Quantity { get; set; }
 
@@ -23,7 +20,6 @@ namespace Exmo.Models
         /// <summary>
         /// Тип ордера.
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public OrderType Type { get; set; }
     }
 }

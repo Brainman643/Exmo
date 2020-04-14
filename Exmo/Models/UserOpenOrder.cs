@@ -21,7 +21,6 @@ namespace Exmo.Models
         /// <summary>
         /// Тип ордера.
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public OrderType Type { get; set; }
 
         /// <summary>
@@ -35,12 +34,12 @@ namespace Exmo.Models
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Кол-во по ордеру.
+        /// Количество по ордеру.
         /// </summary>
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Кол-во по ордеру.
+        /// Количество по ордеру.
         /// </summary>
         public decimal Amount { get; set; }
     }
