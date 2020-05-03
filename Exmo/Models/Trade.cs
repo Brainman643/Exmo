@@ -32,6 +32,6 @@ namespace Exmo.Models
         /// <summary>
         /// Дата и время сделки.
         /// </summary>
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
     }
 }

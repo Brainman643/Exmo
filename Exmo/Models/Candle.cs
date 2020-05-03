@@ -8,7 +8,7 @@ namespace Exmo.Models
     {
         [JsonProperty("t")]
         [JsonConverter(typeof(UnixTimeConverter))]
-        public DateTime Time { get; set; }
+        public DateTimeOffset Time { get; set; }
 
         [JsonProperty("o")]
         public decimal Open { get; set; }

@@ -536,7 +536,7 @@ namespace Exmo.Tests
 
             var request = new WalletHistoryRequest
             {
-                Date = UnixTime.FromSeconds(unixTimeSeconds)
+                Date = DateTimeOffset.FromUnixTimeSeconds(unixTimeSeconds)
             };
             var walletHistory = await _authenticatedApi.GetWalletHistoryAsync(request);
 

@@ -9,7 +9,7 @@ namespace Exmo.Models
         /// Дата операции.
         /// </summary>
         [JsonProperty("dt")]
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         /// <summary>
         /// Тип.

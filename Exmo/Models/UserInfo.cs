@@ -9,7 +9,7 @@ namespace Exmo.Models
         [JsonProperty("uid")]
         public long Id { get; set; }
 
-        public DateTime ServerDate {get;set;}
+        public DateTimeOffset ServerDate {get;set;}
 
         public Dictionary<string, decimal> Balances { get; set; }
 

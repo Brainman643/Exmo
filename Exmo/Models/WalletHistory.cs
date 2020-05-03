@@ -7,12 +7,12 @@ namespace Exmo.Models
         /// <summary>
         /// Начало периода.
         /// </summary>
-        public DateTime Begin { get; set; }
+        public DateTimeOffset Begin { get; set; }
 
         /// <summary>
         /// Конец периода.
         /// </summary>
-        public DateTime End { get; set; }
+        public DateTimeOffset End { get; set; }
 
         /// <summary>
         /// Список операций.

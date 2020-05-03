@@ -7,6 +7,6 @@ namespace Exmo.Models
         /// <summary>
         /// Дата, за которую нужно получить историю.
         /// </summary>
-        public DateTime Date { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset Date { get; set; } = DateTimeOffset.UtcNow;
     }
 }

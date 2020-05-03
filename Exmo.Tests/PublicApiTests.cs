@@ -221,8 +221,8 @@ namespace Exmo.Tests
             {
                 Pair = "BTC_USD",
                 Resolution = Resolution.Minute5,
-                From = UnixTime.FromSeconds(fromSeconds),
-                To = UnixTime.FromSeconds(toSeconds),
+                From = DateTimeOffset.FromUnixTimeSeconds(fromSeconds),
+                To = DateTimeOffset.FromUnixTimeSeconds(toSeconds),
             };
             var candles = await _publicApi.GetCandlesHistoryAsync(request);
 
@@ -258,8 +258,8 @@ namespace Exmo.Tests
             {
                 Pair = "BTC_USD",
                 Resolution = Resolution.Minute5,
-                From = UnixTime.FromSeconds(fromSeconds),
-                To = UnixTime.FromSeconds(toSeconds),
+                From = DateTimeOffset.FromUnixTimeSeconds(fromSeconds),
+                To = DateTimeOffset.FromUnixTimeSeconds(toSeconds),
             };
             var exception = await Assert.ThrowsAsync<ExmoApiException>(async () => await _publicApi.GetCandlesHistoryAsync(request));
             Assert.Equal(code, exception.Code);

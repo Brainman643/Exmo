@@ -50,6 +50,6 @@ namespace Exmo.Models
         /// <summary>
         /// Дата и время обновления данных.
         /// </summary>
-        public DateTime Updated { get; set; }
+        public DateTimeOffset Updated { get; set; }
     }
 }

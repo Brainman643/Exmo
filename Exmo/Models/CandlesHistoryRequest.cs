@@ -19,11 +19,11 @@ namespace Exmo.Models
         /// <summary>
         /// Beginning of period.
         /// </summary>
-        public DateTime From { get; set; }
+        public DateTimeOffset From { get; set; }
 
         /// <summary>
         /// End of period.
         /// </summary>
-        public DateTime To { get; set; }
+        public DateTimeOffset To { get; set; }
     }
 }

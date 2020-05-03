@@ -1,12 +1,11 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Exmo.Json.Converters
 {
-    public class UnixTimeConverter : JsonConverter<DateTime>
+    public class UnixTimeConverter : DateTimeConverterBase
     {
-        private readonly bool _useSeconds;
-
         public UnixTimeConverter()
             :this(false)
         {
@@ -14,25 +13,31 @@ namespace Exmo.Json.Converters
 
         public UnixTimeConverter(bool useSeconds)
         {
-            _useSeconds = useSeconds;
+            UseSeconds = useSeconds;
         }
 
-        public override void WriteJson(JsonWriter writer, DateTime value, JsonSerializer serializer)
+        public bool UseSeconds { get; set; }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(value.ToUnixTime());
+            if (!(value is DateTimeOffset dateTimeOffset))
+            {
+                dateTimeOffset = (DateTime)value;
+            }
+            var unixTime = UseSeconds ? dateTimeOffset.ToUnixTimeSeconds() : dateTimeOffset.ToUnixTimeMilliseconds();
+            writer.WriteValue(unixTime);
         }
 
-        public override DateTime ReadJson(JsonReader reader, Type objectType, DateTime existingValue, bool hasExistingValue,
-            JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            long value;
+            long unixTime;
             switch (reader.TokenType)
             {
                 case JsonToken.Integer:
-                    value = (long)reader.Value!;
+                    unixTime = (long)reader.Value!;
                     break;
                 case JsonToken.String:
-                    if (!long.TryParse((string)reader.Value!, out value))
+                    if (!long.TryParse((string)reader.Value!, out unixTime))
                     {
                         throw new ArgumentException($"{reader.Value} isn't a number.");
                     }
@@ -41,9 +46,18 @@ namespace Exmo.Json.Converters
                     throw new ArgumentException($"Unexpected token. Integer or String was expected, got {reader.TokenType}.");
             }
 
-            return _useSeconds
-                ? UnixTime.FromSeconds(value)
-                : UnixTime.FromMilliseconds(value);
+            var dateTimeOffset = UseSeconds
+                ? DateTimeOffset.FromUnixTimeSeconds(unixTime)
+                : DateTimeOffset.FromUnixTimeMilliseconds(unixTime);
+
+            if (IsDateTimeOffset(objectType))
+            {
+                return dateTimeOffset;
+            }
+            return dateTimeOffset.UtcDateTime;
         }
+
+        private static bool IsDateTimeOffset(Type type)
+            => type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?);
     }
 }

@@ -20,7 +20,7 @@ namespace Exmo.Models
         /// <summary>
         /// Дата и время создания ордера.
         /// </summary>
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         /// <summary>
         /// Тип ордера.
