@@ -1,21 +1,25 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Exmo.Models
 {
-    public class UserOpenOrder
+    public class UserOrder
     {
         /// <summary>
         /// Идентификатор ордера.
         /// </summary>
-        [JsonProperty("order_id")]
-        public long OrderId { get; set; }
+        [JsonProperty(Required = Required.Default)]
+        public long? OrderId { get; set; }
+
+        /// <summary>
+        /// Идентификатор стоп-ордера.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public long? ParentOrderId { get; set; }
 
         /// <summary>
         /// Дата и время создания ордера.
         /// </summary>
-        [JsonProperty("created")]
         public DateTime Created { get; set; }
 
         /// <summary>
@@ -31,7 +35,14 @@ namespace Exmo.Models
         /// <summary>
         /// Цена по ордеру.
         /// </summary>
-        public decimal Price { get; set; }
+        [JsonProperty(Required = Required.Default)]
+        public decimal? Price { get; set; }
+
+        /// <summary>
+        /// Цена, по которой исполняется стоп-ордер.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public decimal? TriggerPrice { get; set; }
 
         /// <summary>
         /// Количество по ордеру.

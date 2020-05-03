@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Exmo.ErrorHandlers;
 using Exmo.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -15,6 +15,11 @@ namespace Exmo
     {
         private readonly Uri _baseAddress;
         private readonly HttpClient _httpClient;
+        private readonly IList<IErrorHandler> _errorHandlers = new List<IErrorHandler>
+        {
+            new ErrorHandlerV1(),
+            new ErrorHandler()
+        };
 
         protected ILogger<ApiClient> Logger { get; }
 
@@ -26,37 +31,23 @@ namespace Exmo
             Logger = logger;
         }
 
-        public Task<TResponse> GetAsync<TResponse>(string apiName, object queryData, CancellationToken cancellationToken = default)
-        {
-            return SendAsync<TResponse>(apiName, HttpMethod.Get, queryData, null, cancellationToken);
-        }
-
-        public Task<TResponse> PostAsync<TResponse>(string apiName, object postData, CancellationToken cancellationToken = default)
-        {
-            return SendAsync<TResponse>(apiName, HttpMethod.Post, null, postData, cancellationToken);
-        }
-
         public async Task<TResponse> SendAsync<TResponse>(string apiName, HttpMethod httpMethod, object queryData, object postData, CancellationToken cancellationToken = default)
         {
             var query = JsonToFormUrlEncodedConverter.Convert(queryData);
             var data = JsonToFormUrlEncodedConverter.Convert(postData);
-            var responseStr = await SendAsync(apiName, httpMethod, query, data, cancellationToken);
+            var response = await SendAsync(apiName, httpMethod, query, data, cancellationToken);
+            var jsonToken = JsonHelper.Serializer.Deserialize<JToken>(response);
 
             //try handling an error response
-            var jsonToken = JsonHelper.Serializer.Deserialize<JToken>(responseStr);
-            if (jsonToken.Type == JTokenType.Object)
+            foreach (var errorHandler in _errorHandlers)
             {
-                var response = jsonToken.ToObject<ResultResponse>(JsonHelper.Serializer);
-                if (!response.Succeeded)
-                {
-                    throw new ExmoApiException(response.Error);
-                }
+                errorHandler.HandleResponse(jsonToken);
             }
 
             return jsonToken.ToObject<TResponse>(JsonHelper.Serializer);
         }
 
-        private async Task<string> SendAsync(string apiName, HttpMethod httpMethod, List<KeyValuePair<string, string>> queryData, List<KeyValuePair<string, string>> postData, CancellationToken cancellationToken = default)
+        protected async Task<string> SendAsync(string apiName, HttpMethod httpMethod, List<KeyValuePair<string, string>> queryData, List<KeyValuePair<string, string>> postData, CancellationToken cancellationToken = default)
         {
             var address = apiName;
 
@@ -66,51 +57,19 @@ namespace Exmo
                 address += "?" + queryString;
             }
 
-            var logTitle = $"{httpMethod}: {_baseAddress}{queryString}";
-            using (Logger.BeginScope(logTitle))
+            var request = new HttpRequestMessage(httpMethod, address);
+            request.Content = await GetContentAsync(postData);
+
+            using (var response = await _httpClient.SendAsync(request, cancellationToken))
             {
-                var requestMessage = new HttpRequestMessage(httpMethod, address);
-                requestMessage.Content = await GetContentAsync(postData);
-
-                if (Logger.IsEnabled(LogLevel.Trace))
+                if (!response.IsSuccessStatusCode)
                 {
-                    var requestText = await requestMessage.Content.ReadAsStringAsync();
-                    var sb = new StringBuilder();
-                    sb.AppendLine(logTitle);
-                    if (!string.IsNullOrEmpty(requestText))
-                    {
-                        sb.Append("Request: ").Append(requestText);
-                    }
-
-                    Logger.LogTrace(sb.ToString());
+                    throw new ExmoApiException($"Exmo server returned a status code {(int)response.StatusCode}.");
                 }
 
-                Logger.LogInformation(logTitle);
-                using (var response = await _httpClient.SendAsync(requestMessage, cancellationToken))
+                using (var content = response.Content)
                 {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw new ExmoApiException($"Exmo server returned a status code {(int)response.StatusCode}.");
-                    }
-
-                    using (var content = response.Content)
-                    {
-                        var responseText = await response.Content.ReadAsStringAsync();
-
-                        if (Logger.IsEnabled(LogLevel.Trace))
-                        {
-                            var sb = new StringBuilder();
-                            sb.AppendLine(logTitle);
-                            if (!string.IsNullOrEmpty(responseText))
-                            {
-                                sb.Append("Response: ").Append(responseText);
-                            }
-
-                            Logger.LogTrace(sb.ToString());
-                        }
-
-                        return responseText;
-                    }
+                    return await response.Content.ReadAsStringAsync();
                 }
             }
         }

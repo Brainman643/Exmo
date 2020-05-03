@@ -44,5 +44,21 @@ namespace Exmo
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<string[]> GetCurrenciesAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Подсчет в какую сумму обойдется покупка определенного количества валюты по конкретной валютной паре.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<RequiredAmount> CalculateRequiredAmountAsync(RequiredAmountRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// История свечей.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Candle[]> GetCandlesHistoryAsync(CandlesHistoryRequest request, CancellationToken cancellationToken = default);
     }
 }

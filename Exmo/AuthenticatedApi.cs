@@ -31,12 +31,27 @@ namespace Exmo
             {
                 OrderId = orderId
             };
-            await _client.PostAsync<Result>("order_cancel", request, cancellationToken);
+            await _client.PostAsync<object>("order_cancel", request, cancellationToken);
         }
 
-        public Task<PairDictionary<UserOpenOrder[]>> GetOpenOrdersAsync(CancellationToken cancellationToken = default)
+        public async Task<long> CreateStopMarketOrderAsync(CreateStopMarketOrderRequest request, CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<PairDictionary<UserOpenOrder[]>>("user_open_orders", null, cancellationToken);
+            var result = await _client.PostAsync<CreateStopMarketOrderResult>("stop_market_order_create", request, cancellationToken);
+            return result.ParentOrderId;
+        }
+
+        public async Task CancelStopMarketOrderAsync(long parentOrderId, CancellationToken cancellationToken = default)
+        {
+            var request = new CancelStopMarketOrderRequest
+            {
+                ParentOrderId = parentOrderId
+            };
+            await _client.PostAsync<object>("stop_market_order_cancel", request, cancellationToken);
+        }
+
+        public Task<PairDictionary<UserOrder[]>> GetOpenOrdersAsync(CancellationToken cancellationToken = default)
+        {
+            return _client.PostAsync<PairDictionary<UserOrder[]>>("user_open_orders", null, cancellationToken);
         }
 
         public Task<PairDictionary<OrderTrade[]>> GetUserTradesAsync(UserTradesRequest request, CancellationToken cancellationToken = default)
@@ -44,9 +59,9 @@ namespace Exmo
             return _client.PostAsync<PairDictionary<OrderTrade[]>>("user_trades", request, cancellationToken);
         }
 
-        public Task<UserCancelledOrder[]> GetCancelledOrdersAsync(PagedRequest request, CancellationToken cancellationToken = default)
+        public Task<UserOrder[]> GetCancelledOrdersAsync(PagedRequest request, CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<UserCancelledOrder[]>("user_cancelled_orders", request, cancellationToken);
+            return _client.PostAsync<UserOrder[]>("user_cancelled_orders", request, cancellationToken);
         }
 
         public Task<OrderTrades> GetOrderTradesAsync(long orderId, CancellationToken cancellationToken = default)
@@ -58,19 +73,9 @@ namespace Exmo
             return _client.PostAsync<OrderTrades>("order_trades", request, cancellationToken);
         }
 
-        public Task<RequiredAmount> CalculateRequiredAmountAsync(RequiredAmountRequest request, CancellationToken cancellationToken = default)
-        {
-            return _client.PostAsync<RequiredAmount>("required_amount", request, cancellationToken);
-        }
-
         public Task<Dictionary<string, string>> GetDepositAddressesAsync(CancellationToken cancellationToken = default)
         {
             return _client.PostAsync<Dictionary<string, string>>("deposit_address", cancellationToken);
-        }
-
-        public Task<WalletHistory> GetWalletHistoryAsync(WalletHistoryRequest request, CancellationToken cancellationToken = default)
-        {
-            return _client.PostAsync<WalletHistory>("wallet_history", request, cancellationToken);
         }
 
         public Task<CreateExcodeResult> CreateExcodeAsync(CreateExcodeRequest request, CancellationToken cancellationToken = default)
@@ -97,6 +102,10 @@ namespace Exmo
                 TaskId = taskId
             };
             return _client.PostAsync<WithdrawTransaction>("withdraw_get_txid", request, cancellationToken);
+        }
+        public Task<WalletHistory> GetWalletHistoryAsync(WalletHistoryRequest request, CancellationToken cancellationToken = default)
+        {
+            return _client.PostAsync<WalletHistory>("wallet_history", request, cancellationToken);
         }
     }
 }

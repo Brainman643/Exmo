@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 
 namespace Exmo.Models
 {
-    public enum TradeType
+    public enum StopMarketOrderType
     {
         [EnumMember(Value = "buy")]
         Buy,

@@ -5,14 +5,12 @@ namespace Exmo
 {
     public static class ServiceCollectionExtensions
     {
-        private const string HttpClientName = "ExmoApiClient";
-
         public static IServiceCollection AddExmoApi(this IServiceCollection services, Action<ExmoOptions> configureOptions = null)
         {
             services.AddLogging();
 
-            services.AddHttpClient<IApiClient, ApiClient>(HttpClientName);
-            services.AddHttpClient<IAuthApiClient, AuthApiClient>(HttpClientName);
+            services.AddHttpClient<IApiClient, ApiClient>(HttpClientDefaults.ExmoHttpClientName);
+            services.AddHttpClient<IAuthApiClient, AuthApiClient>(HttpClientDefaults.ExmoHttpClientName);
             services.AddTransient<IPublicApi, PublicApi>();
             services.AddTransient<IAuthenticatedApi, AuthenticatedApi>();
 

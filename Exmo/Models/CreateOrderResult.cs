@@ -1,10 +1,7 @@
-using Newtonsoft.Json;
-
 namespace Exmo.Models
 {
-    internal class CreateOrderResult : Result
+    internal class CreateOrderResult
     {
-        [JsonProperty("order_id")]
         public long OrderId { get; set; }
     }
 }

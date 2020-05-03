@@ -25,17 +25,33 @@ namespace Exmo
         /// <summary>
         /// Отмена ордера.
         /// </summary>
+        /// <param name="parentOrderId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task CancelOrderAsync(long parentOrderId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Создание стоп ордера.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<long> CreateStopMarketOrderAsync(CreateStopMarketOrderRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Отмента стоп ордера.
+        /// </summary>
         /// <param name="orderId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task CancelOrderAsync(long orderId, CancellationToken cancellationToken = default);
+        Task CancelStopMarketOrderAsync(long orderId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получение списока открытых ордеров пользователя.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PairDictionary<UserOpenOrder[]>> GetOpenOrdersAsync(CancellationToken cancellationToken = default);
+        Task<PairDictionary<UserOrder[]>> GetOpenOrdersAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получение сделок пользователя.
@@ -51,7 +67,7 @@ namespace Exmo
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<UserCancelledOrder[]> GetCancelledOrdersAsync(PagedRequest request, CancellationToken cancellationToken = default);
+        Task<UserOrder[]> GetCancelledOrdersAsync(PagedRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получение истории сделок ордера.
@@ -62,27 +78,11 @@ namespace Exmo
         Task<OrderTrades> GetOrderTradesAsync(long orderId, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Подсчет в какую сумму обойдется покупка определенного количества валюты по конкретной валютной паре.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<RequiredAmount> CalculateRequiredAmountAsync(RequiredAmountRequest request, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Получение списка адресов для депозита криптовалют.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<Dictionary<string, string>> GetDepositAddressesAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Получение истории wallet.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<WalletHistory> GetWalletHistoryAsync(WalletHistoryRequest request, CancellationToken cancellationToken = default);
 
         Task<CreateExcodeResult> CreateExcodeAsync(CreateExcodeRequest request, CancellationToken cancellationToken = default);
 
@@ -91,5 +91,13 @@ namespace Exmo
         Task<long> WithdrawCryptAsync(WithdrawCryptRequest request, CancellationToken cancellationToken = default);
 
         Task<WithdrawTransaction> GetWithdrawTransactionAsync(long taskId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получение истории wallet.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<WalletHistory> GetWalletHistoryAsync(WalletHistoryRequest request, CancellationToken cancellationToken = default);
     }
 }

@@ -1,5 +1,6 @@
 using Exmo.Json.Converters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace Exmo.Json
@@ -10,9 +11,9 @@ namespace Exmo.Json
         {
             ContractResolver = new RequirePropertiesContractResolver
             {
-                NamingStrategy = new CamelCaseNamingStrategy(),
+                NamingStrategy = new SnakeCaseNamingStrategy()
             },
-            Converters = { new UnixTimeConverter() },
+            Converters = { new UnixTimeConverter(true), new StringEnumConverter { NamingStrategy = new SnakeCaseNamingStrategy() } },
             FloatParseHandling = FloatParseHandling.Decimal
         });
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Exmo.Tests
         [Fact]
         public async Task GetTrades()
         {
-            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleQueryString(form => Assert.Equal("BTC_USD,ETH_USD", form["pair"]));
+            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleContent(form => Assert.Equal("BTC_USD,ETH_USD", form["pair"]));
             _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent("{\"BTC_USD\":[{\"trade_id\":158710427,\"type\":\"sell\",\"quantity\":\"0.0831\",\"price\":\"6653.1417\",\"amount\":\"552.87607527\",\"date\":1584995002}],\"ETH_USD\":[{\"trade_id\":158710264,\"type\":\"buy\",\"quantity\":\"2.3\",\"price\":\"137.56743\",\"amount\":\"316.405089\",\"date\":1584994920}]}")
@@ -94,7 +95,7 @@ namespace Exmo.Tests
         {
             _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent("{\"BTC_USD\":{\"min_quantity\":\"0.0001\",\"max_quantity\":\"1000\",\"min_price\":\"1\",\"max_price\":\"30000\",\"max_amount\":\"500000\",\"min_amount\":\"1\"},\"ETH_USD\":{\"min_quantity\":\"0.001\",\"max_quantity\":\"5000\",\"min_price\":\"0.01\",\"max_price\":\"100000\",\"max_amount\":\"500000\",\"min_amount\":\"3\"}}")
+                Content = new StringContent("{\"BTC_USD\":{\"min_quantity\":\"0.0001\",\"max_quantity\":\"1000\",\"min_price\":\"1\",\"max_price\":\"30000\",\"max_amount\":\"500000\",\"min_amount\":\"1\",\"price_precision\":8,\"commission_taker_percent\":\"0.2\",\"commission_maker_percent\":\"0.2\"},\"ETH_USD\":{\"min_quantity\":\"0.001\",\"max_quantity\":\"5000\",\"min_price\":\"0.01\",\"max_price\":\"100000\",\"max_amount\":\"500000\",\"min_amount\":\"3\",\"price_precision\":8,\"commission_taker_percent\":\"0.2\",\"commission_maker_percent\":\"0.2\"}}")
             };
 
             var pairSettings = await _publicApi.GetPairSettingsAsync();
@@ -107,12 +108,15 @@ namespace Exmo.Tests
             Assert.Equal(30000m, btcUsd.MaxPrice);
             Assert.Equal(500000m, btcUsd.MaxAmount);
             Assert.Equal(1m, btcUsd.MinAmount);
+            Assert.Equal(8, btcUsd.PricePrecision);
+            Assert.Equal(0.2m, btcUsd.CommissionTakerPercent);
+            Assert.Equal(0.2m, btcUsd.CommissionMakerPercent);
         }
 
         [Fact]
         public async Task GetOrderBook()
         {
-            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleQueryString(form =>
+            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleContent(form =>
             {
                 Assert.Equal("BTC_USD,ETH_USD", form["pair"]);
                 Assert.Equal("100", form["limit"]);
@@ -124,7 +128,8 @@ namespace Exmo.Tests
 
             var request = new OrderBookRequest
             {
-                Pairs = new PairCollection("BTC_USD", "ETH_USD")
+                Pairs = new PairCollection("BTC_USD", "ETH_USD"),
+                Limit = 100
             };
             var orderBook = await _publicApi.GetOrderBookAsync(request);
 
@@ -167,6 +172,98 @@ namespace Exmo.Tests
             Assert.Equal(136.83096644m, ethUsd.Bid[1].Price);
             Assert.Equal(4m, ethUsd.Bid[1].Quantity);
             Assert.Equal(547.32386576m, ethUsd.Bid[1].Amount);
+        }
+
+        [Fact]
+        public async Task CalculateRequiredAmount()
+        {
+            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleContent(form =>
+            {
+                Assert.Equal("BTC_USD", form["pair"]);
+                Assert.Equal("0.01", form["quantity"]);
+            });
+            _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("{\"quantity\":\"0.01\",\"amount\":\"69.07831279\",\"avg_price\":\"6907.831279\"}")
+            };
+
+            var request = new RequiredAmountRequest
+            {
+                Pair = "BTC_USD",
+                Quantity = 0.01m
+            };
+            var result = await _publicApi.CalculateRequiredAmountAsync(request);
+
+            Assert.Equal(0.01m, result.Quantity);
+            Assert.Equal(69.07831279m, result.Amount);
+            Assert.Equal(6907.831279m, result.AveragePrice);
+        }
+
+        [Fact]
+        public async Task GetCandlesHistory()
+        {
+            const int fromSeconds = 1587844151;
+            const int toSeconds = 1587844532;
+
+            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleQueryString(form =>
+            {
+                Assert.Equal("BTC_USD", form["symbol"]);
+                Assert.Equal("5", form["resolution"]);
+                Assert.Equal(fromSeconds.ToString(CultureInfo.InvariantCulture), form["from"]);
+                Assert.Equal(toSeconds.ToString(CultureInfo.InvariantCulture), form["to"]);
+            });
+            _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("{\"candles\":[{\"t\":1587844200000,\"o\":7546.6259,\"c\":7540.4937,\"h\":7546.6259,\"l\":7539.06212565,\"v\":0.46677045000000006},{\"t\":1587844500000,\"o\":7543.4013,\"c\":7543.3275,\"h\":7545,\"l\":7539.53903772,\"v\":0.65390688}]}")
+            };
+
+            var request = new CandlesHistoryRequest
+            {
+                Pair = "BTC_USD",
+                Resolution = Resolution.Minute5,
+                From = UnixTime.FromSeconds(fromSeconds),
+                To = UnixTime.FromSeconds(toSeconds),
+            };
+            var candles = await _publicApi.GetCandlesHistoryAsync(request);
+
+            Assert.Equal(2, candles.Length);
+            Assert.Equal(1587844200000, candles[0].Time.ToUnixTimeMilliseconds());
+            Assert.Equal(7546.6259m, candles[0].Open);
+            Assert.Equal(7540.4937m, candles[0].Close);
+            Assert.Equal(7546.6259m, candles[0].High);
+            Assert.Equal(7539.06212565m, candles[0].Low);
+            Assert.Equal(0.46677045000000006m, candles[0].Volume);
+            Assert.Equal(1587844500000, candles[1].Time.ToUnixTimeMilliseconds());
+            Assert.Equal(7543.4013m, candles[1].Open);
+            Assert.Equal(7543.3275m, candles[1].Close);
+            Assert.Equal(7545m, candles[1].High);
+            Assert.Equal(7539.53903772m, candles[1].Low);
+            Assert.Equal(0.65390688m, candles[1].Volume);
+        }
+
+        [Theory]
+        [InlineData("{\"result\":false,\"error\":\"Error 40013\"}", 40013, "")]
+        [InlineData("{\"s\":\"error\",\"errmsg\":\"range period is too long: maximum 3000 candles allowed\"}", -1, "range period is too long: maximum 3000 candles allowed")]
+        public async Task GetCandlesHistory_ErrorResponse_ThrowsExmoApiException(string response, int code, string message)
+        {
+            const int fromSeconds = 1587844151;
+            const int toSeconds = 1587844532;
+
+            _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(response)
+            };
+
+            var request = new CandlesHistoryRequest
+            {
+                Pair = "BTC_USD",
+                Resolution = Resolution.Minute5,
+                From = UnixTime.FromSeconds(fromSeconds),
+                To = UnixTime.FromSeconds(toSeconds),
+            };
+            var exception = await Assert.ThrowsAsync<ExmoApiException>(async () => await _publicApi.GetCandlesHistoryAsync(request));
+            Assert.Equal(code, exception.Code);
+            Assert.Equal(message, exception.Message);
         }
 
         public void Dispose()

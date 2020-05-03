@@ -20,6 +20,6 @@ namespace Exmo.Models
         /// <summary>
         /// Тип ордера.
         /// </summary>
-        public OrderType Type { get; set; }
+        public CreateOrderType Type { get; set; }
     }
 }

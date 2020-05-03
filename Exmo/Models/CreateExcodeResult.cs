@@ -3,12 +3,11 @@ using Newtonsoft.Json;
 
 namespace Exmo.Models
 {
-    public class CreateExcodeResult : Result
+    public class CreateExcodeResult
     {
         /// <summary>
         /// Идентификатор купона.
         /// </summary>
-        [JsonProperty("task_id")]
         public long TaskId { get; set; }
 
         /// <summary>

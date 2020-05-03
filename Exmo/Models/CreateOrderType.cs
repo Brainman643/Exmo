@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 
 namespace Exmo.Models
 {
-    public enum OrderType
+    public enum CreateOrderType
     {
         [EnumMember(Value = "buy")]
         Buy,
@@ -20,12 +20,6 @@ namespace Exmo.Models
         MarketBuyTotal,
 
         [EnumMember(Value = "market_sell_total")]
-        MarketSellTotal,
-
-        [EnumMember(Value = "stop_market_sell")]
-        StopMarketSell,
-
-        [EnumMember(Value = "stop_market_buy")]
-        StopMarketBuy
+        MarketSellTotal
     }
 }

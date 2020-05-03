@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Exmo.Models
 {
     internal class WithdrawTransactionRequest
@@ -7,7 +5,6 @@ namespace Exmo.Models
         /// <summary>
         /// Идентификатор купона.
         /// </summary>
-        [JsonProperty("task_id")]
         public long TaskId { get; set; }
     }
 }

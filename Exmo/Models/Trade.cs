@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 
 namespace Exmo.Models
 {
@@ -8,7 +7,6 @@ namespace Exmo.Models
         /// <summary>
         /// Идентификатор сделки.
         /// </summary>
-        [JsonProperty("trade_id")]
         public long TradeId { get; set; }
 
         /// <summary>

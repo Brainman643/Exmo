@@ -11,7 +11,7 @@ namespace Exmo.Tests
         {
             return request =>
             {
-                var form = GetForm(Uri.UnescapeDataString(request.RequestUri.Query.Substring(1)));
+                var form = GetForm(request.RequestUri.Query.Substring(1));
                 action(form);
                 return Task.CompletedTask;
             };
@@ -21,7 +21,7 @@ namespace Exmo.Tests
         {
             return async request =>
             {
-                var form = await TestHelper.GetFormAsync(request.Content);
+                var form = await GetFormAsync(request.Content);
                 action(form);
             };
         }
@@ -37,7 +37,7 @@ namespace Exmo.Tests
             foreach (var pair in data.Split('&', StringSplitOptions.RemoveEmptyEntries))
             {
                 var parameter = pair.Split('=');
-                nameValueCollection.Add(parameter[0], parameter[1]);
+                nameValueCollection.Add(Uri.UnescapeDataString(parameter[0]), Uri.UnescapeDataString(parameter[1]));
             }
 
             return nameValueCollection;

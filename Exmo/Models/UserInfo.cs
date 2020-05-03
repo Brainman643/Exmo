@@ -9,13 +9,10 @@ namespace Exmo.Models
         [JsonProperty("uid")]
         public long Id { get; set; }
 
-        [JsonProperty("server_date")]
         public DateTime ServerDate {get;set;}
 
-        [JsonProperty("balances")]
         public Dictionary<string, decimal> Balances { get; set; }
 
-        [JsonProperty("reserved")]
         public Dictionary<string, decimal> Reserved { get; set; }
     }
 }

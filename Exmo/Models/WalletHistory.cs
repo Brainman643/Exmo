@@ -2,7 +2,7 @@ using System;
 
 namespace Exmo.Models
 {
-    public class WalletHistory : Result
+    public class WalletHistory
     {
         /// <summary>
         /// Начало периода.
