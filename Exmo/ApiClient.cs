@@ -57,18 +57,16 @@ namespace Exmo
                 address += "?" + queryString;
             }
 
-            var request = new HttpRequestMessage(httpMethod, address);
-            request.Content = await GetContentAsync(postData);
-
-            using (var response = await _httpClient.SendAsync(request, cancellationToken))
+            using (var request = new HttpRequestMessage(httpMethod, address))
             {
-                if (!response.IsSuccessStatusCode)
+                request.Content = await GetContentAsync(postData);
+                using (var response = await _httpClient.SendAsync(request, cancellationToken))
                 {
-                    throw new ExmoApiException($"Exmo server returned a status code {(int)response.StatusCode}.");
-                }
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new ExmoApiException($"Exmo server returned a status code {(int)response.StatusCode}.");
+                    }
 
-                using (var content = response.Content)
-                {
                     return await response.Content.ReadAsStringAsync();
                 }
             }

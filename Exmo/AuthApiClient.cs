@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -32,7 +32,7 @@ namespace Exmo
 
         protected override async Task<FormUrlEncodedContent> GetContentAsync(List<KeyValuePair<string, string>> data)
         {
-            data.Add(new KeyValuePair<string, string>("nonce", Convert.ToString(Nonce.Value)));
+            data.Add(new KeyValuePair<string, string>("nonce", Nonce.Value.ToString(CultureInfo.InvariantCulture)));
             var content = await base.GetContentAsync(data);
             var message = await content.ReadAsStringAsync();
             var sign = Sign(_secretKey, message);
