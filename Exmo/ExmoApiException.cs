@@ -6,23 +6,26 @@ namespace Exmo
     [Serializable]
     public class ExmoApiException : Exception
     {
-        public int Code { get; set; } = -1;
+        public int? Code { get; set; }
 
         public ExmoApiException()
         {
         }
 
-        public ExmoApiException(string message) : base(message)
+        public ExmoApiException(string message)
+            : base(message)
         {
         }
 
-        public ExmoApiException(string message, Exception innerException) : base(message, innerException)
+        public ExmoApiException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 
         protected ExmoApiException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
         {
-            Code = serializationInfo.GetInt32(nameof(Code));
+            Code = (int?)serializationInfo.GetValue(nameof(Code), typeof(int?));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

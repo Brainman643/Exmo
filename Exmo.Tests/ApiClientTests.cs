@@ -78,12 +78,14 @@ namespace Exmo.Tests
         [Theory]
         [InlineData("{\"result\": false, \"error\": \"Error 1234: Test Error\"}", 1234, "Test Error")]
         [InlineData("{\"result\":false,\"error\":\"Error 1234\"}", 1234, "")]
+        [InlineData("{\"result\":false,\"error\":\"Error\"}", null, "Error")]
         [InlineData("{\"Result\": false, \"Error\": \"Error 1234: Test Error\"}", 1234, "Test Error")]
         [InlineData("{\"error\":{\"code\":1234,\"msg\":\"Test Error\"}}", 1234, "Test Error")]
         [InlineData("{\"error\":{\"code\":1234}}", 1234, "")]
+        [InlineData("{\"error\":{\"msg\":\"Test Error\"}}", null, "Test Error")]
         [InlineData("{\"Error\":{\"Code\":1234,\"Msg\":\"Test Error\"}}", 1234, "Test Error")]
-        [InlineData("{\"error\":{}}", -1, "")]
-        public async Task Send_ErrorResponse_ThrowsExmoApiException(string response, int code, string message)
+        [InlineData("{\"error\":{}}", null, "")]
+        public async Task Send_ErrorResponse_ThrowsExmoApiException(string response, int? code, string message)
         {
             _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
             {

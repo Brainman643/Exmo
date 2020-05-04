@@ -14,7 +14,7 @@ namespace Exmo.ErrorHandlers
                 if (errorToken?.Type == JTokenType.Object)
                 {
                     var error = (JObject)errorToken;
-                    var code = error.GetValue("code", StringComparison.OrdinalIgnoreCase)?.Value<int>() ?? -1;
+                    var code = error.GetValue("code", StringComparison.OrdinalIgnoreCase)?.Value<int>();
                     var message = error.GetValue("msg", StringComparison.OrdinalIgnoreCase)?.Value<string>() ?? string.Empty;
 
                     throw new ExmoApiException(message) { Code = code };

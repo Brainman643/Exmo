@@ -492,7 +492,6 @@ namespace Exmo.Tests
             Assert.Equal(467756, taskId);
         }
 
-
         [Fact]
         public async Task WithdrawCrypt_OptionalParametersAreNotSet()
         {

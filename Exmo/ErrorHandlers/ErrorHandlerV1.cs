@@ -24,9 +24,9 @@ namespace Exmo.ErrorHandlers
             }
         }
 
-        private static (int Code, string Message) ParseErrorMessage(string errorMessage)
+        private static (int? Code, string Message) ParseErrorMessage(string errorMessage)
         {
-            var code = -1;
+            int? code = null;
             var message = string.Empty;
             if (!string.IsNullOrEmpty(errorMessage))
             {

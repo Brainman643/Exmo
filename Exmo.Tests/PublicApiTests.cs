@@ -243,8 +243,8 @@ namespace Exmo.Tests
 
         [Theory]
         [InlineData("{\"result\":false,\"error\":\"Error 40013\"}", 40013, "")]
-        [InlineData("{\"s\":\"error\",\"errmsg\":\"range period is too long: maximum 3000 candles allowed\"}", -1, "range period is too long: maximum 3000 candles allowed")]
-        public async Task GetCandlesHistory_ErrorResponse_ThrowsExmoApiException(string response, int code, string message)
+        [InlineData("{\"s\":\"error\",\"errmsg\":\"range period is too long: maximum 3000 candles allowed\"}", null, "range period is too long: maximum 3000 candles allowed")]
+        public async Task GetCandlesHistory_ErrorResponse_ThrowsExmoApiException(string response, int? code, string message)
         {
             const int fromSeconds = 1587844151;
             const int toSeconds = 1587844532;
