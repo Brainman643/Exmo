@@ -19,3 +19,6 @@ jobs:
 
     - name: Pack
       run: pack.bat
+
+    - name: Push package
+      run: push.bat ${{ secrets.NUGET_API_KEY }}
