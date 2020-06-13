@@ -4,14 +4,14 @@ using Newtonsoft.Json;
 
 namespace Exmo.Models
 {
-    [JsonConverter(typeof(PairCollectionConverter))]
-    public class PairCollection : List<Pair>
+    [JsonConverter(typeof(CurrencyPairCollectionConverter))]
+    public class CurrencyPairCollection : List<CurrencyPair>
     {
-        public PairCollection()
+        public CurrencyPairCollection()
         {
         }
 
-        public PairCollection(params Pair[] pairs)
+        public CurrencyPairCollection(params CurrencyPair[] pairs)
             : base(pairs)
         {
         }

@@ -7,46 +7,44 @@ namespace Exmo
     public interface IPublicApi
     {
         /// <summary>
-        /// Список сделок по валютной паре.
+        /// Gets the list of the deals by currency pairs.
         /// </summary>
         /// <param name="pairs"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PairDictionary<Trade[]>> GetTradesAsync(PairCollection pairs,
-            CancellationToken cancellationToken = default);
+        Task<CurrencyPairDictionary<Trade[]>> GetTradesAsync(CurrencyPairCollection pairs, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Книга ордеров по валютной паре.
+        /// Gets the book of current orders by currency pairs.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PairDictionary<OrderBook>> GetOrderBookAsync(OrderBookRequest request,
-            CancellationToken cancellationToken = default);
+        Task<CurrencyPairDictionary<OrderBook>> GetOrderBookAsync(OrderBookRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Cтатистика цен и объемов торгов по валютным парам.
+        /// Gets the statistics on prices and volume of trades by currency pairs.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PairDictionary<Ticker>> GetTickerAsync(CancellationToken cancellationToken = default);
+        Task<CurrencyPairDictionary<Ticker>> GetTickerAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Настройки валютных пар.
+        /// Gets the currency pairs settings.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PairDictionary<PairSettings>> GetPairSettingsAsync(CancellationToken cancellationToken = default);
+        Task<CurrencyPairDictionary<CurrencyPairSettings>> GetCurrencyPairSettingsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Cписок валют биржи.
+        /// Gets the list of all currencies.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<string[]> GetCurrenciesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Подсчет в какую сумму обойдется покупка определенного количества валюты по конкретной валютной паре.
+        /// Calculates the sum of buying a certain amount of currency for the particular currency pair.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
@@ -54,7 +52,7 @@ namespace Exmo
         Task<RequiredAmount> CalculateRequiredAmountAsync(RequiredAmountRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// История свечей.
+        /// Gets the candles history.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>

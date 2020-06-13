@@ -5,13 +5,13 @@ namespace Exmo.Models
     public class OrderBookRequest
     {
         /// <summary>
-        /// Валютные пары.
+        /// Gets or sets the currency pairs.
         /// </summary>
         [JsonProperty("pair")]
-        public PairCollection Pairs { get; set; }
+        public CurrencyPairCollection Pairs { get; set; }
 
         /// <summary>
-        /// Количество отображаемых позиций.
+        /// Gets or sets the count of the displayed positions.
         /// </summary>
         public int Limit { get; set; } = 100;
     }

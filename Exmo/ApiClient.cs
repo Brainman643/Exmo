@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Exmo.ErrorHandlers;
+using Exmo.Helpers;
 using Exmo.Json;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
@@ -21,20 +21,17 @@ namespace Exmo
             new ErrorHandler()
         };
 
-        protected ILogger<ApiClient> Logger { get; }
-
-        public ApiClient(IOptions<ExmoOptions> options, HttpClient httpClient, ILogger<ApiClient> logger)
+        public ApiClient(IOptions<ExmoOptions> options, HttpClient httpClient)
         {
             _baseAddress = new Uri(AddTrailingSlash(options.Value.ExmoApiUrl));
             _httpClient = httpClient;
             _httpClient.BaseAddress = _baseAddress;
-            Logger = logger;
         }
 
         public async Task<TResponse> SendAsync<TResponse>(string apiName, HttpMethod httpMethod, object queryData, object postData, CancellationToken cancellationToken = default)
         {
-            var query = JsonToFormUrlEncodedConverter.Convert(queryData);
-            var data = JsonToFormUrlEncodedConverter.Convert(postData);
+            var query = FormHelper.GetValues(queryData);
+            var data = FormHelper.GetValues(postData);
             var response = await SendAsync(apiName, httpMethod, query, data, cancellationToken);
             var jsonToken = JsonHelper.Serializer.Deserialize<JToken>(response);
 

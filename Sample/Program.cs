@@ -5,30 +5,42 @@ using Exmo.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sample.Logging;
 
 namespace Sample
 {
-    static class Program
+    internal static class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
+        {
+            using var serviceProvider = ConfigureServices();
+
+            var publicApi = serviceProvider.GetRequiredService<IPublicApi>();
+            var orderBook = await publicApi.GetOrderBookAsync(new OrderBookRequest { Pairs = new CurrencyPairCollection("BTC_USDT") });
+
+            Console.ReadKey();
+        }
+
+        private static ServiceProvider ConfigureServices()
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
 
             var services = new ServiceCollection();
+
             services.AddLogging(configure => configure
                 .AddConfiguration(configuration.GetSection("Logging"))
                 .AddConsole());
-            services.AddExmoApi();
 
-            using var serviceProvider = services.BuildServiceProvider();
+            services.AddExmoApi()
+                .Configure<ExmoOptions>(configuration.GetSection("Exmo"));
 
-            var publicApi = serviceProvider.GetRequiredService<IPublicApi>();
+            services.AddTransient<HttpLoggingHandler>();
+            services.AddHttpClient(ExmoDefaults.HttpClientName)
+                .AddHttpMessageHandler<HttpLoggingHandler>();
 
-            var orderBook = await publicApi.GetOrderBookAsync(new OrderBookRequest { Pairs = new PairCollection("BTC_USDT") });
-
-            Console.ReadKey();
+            return services.BuildServiceProvider();
         }
     }
 }

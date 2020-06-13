@@ -3,10 +3,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Exmo.Models;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Exmo.Tests
@@ -40,7 +38,7 @@ namespace Exmo.Tests
         {
             _fakeHttpMessageHandler = new FakeHttpMessageHandler();
             _httpClient = new HttpClient(_fakeHttpMessageHandler, true);
-            _apiClient = new ApiClient(Options.Create(new ExmoOptions()), _httpClient, new NullLogger<ApiClient>());
+            _apiClient = new ApiClient(Options.Create(new ExmoOptions()), _httpClient);
         }
 
         [Fact]

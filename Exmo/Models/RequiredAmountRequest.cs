@@ -3,12 +3,12 @@ namespace Exmo.Models
     public class RequiredAmountRequest
     {
         /// <summary>
-        /// Валютная пара.
+        /// Gets or sets the currency pair.
         /// </summary>
-        public Pair Pair { get; set; }
+        public CurrencyPair Pair { get; set; }
 
         /// <summary>
-        /// Количество, которое необходимо купить.
+        /// Gets or sets the quantity to buy.
         /// </summary>
         public decimal Quantity { get; set; }
     }

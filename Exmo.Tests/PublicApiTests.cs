@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Exmo.Models;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Xunit;
 
@@ -20,7 +19,7 @@ namespace Exmo.Tests
         {
             _fakeHttpMessageHandler = new FakeHttpMessageHandler();
             _httpClient = new HttpClient(_fakeHttpMessageHandler, true);
-            var apiClient = new ApiClient(Options.Create(new ExmoOptions()), _httpClient, new NullLogger<ApiClient>());
+            var apiClient = new ApiClient(Options.Create(new ExmoOptions()), _httpClient);
             _publicApi = new PublicApi(apiClient);
         }
 
@@ -33,10 +32,10 @@ namespace Exmo.Tests
                 Content = new StringContent("{\"BTC_USD\":[{\"trade_id\":158710427,\"type\":\"sell\",\"quantity\":\"0.0831\",\"price\":\"6653.1417\",\"amount\":\"552.87607527\",\"date\":1584995002}],\"ETH_USD\":[{\"trade_id\":158710264,\"type\":\"buy\",\"quantity\":\"2.3\",\"price\":\"137.56743\",\"amount\":\"316.405089\",\"date\":1584994920}]}")
             };
 
-            var pairs = new PairCollection("BTC_USD", "ETH_USD");
+            var pairs = new CurrencyPairCollection("BTC_USD", "ETH_USD");
             var trades = await _publicApi.GetTradesAsync(pairs);
 
-            Assert.Equal(new Pair[] { "BTC_USD", "ETH_USD" }, trades.Keys);
+            Assert.Equal(new CurrencyPair[] { "BTC_USD", "ETH_USD" }, trades.Keys);
             var btcUsd = trades["BTC_USD"];
             Assert.Equal(158710427, btcUsd[0].TradeId);
             Assert.Equal(TradeType.Sell, btcUsd[0].Type);
@@ -63,7 +62,7 @@ namespace Exmo.Tests
 
             var ticker = await _publicApi.GetTickerAsync();
 
-            Assert.Equal(new Pair[] { "BTC_USD", "ETH_USD" }, ticker.Keys);
+            Assert.Equal(new CurrencyPair[] { "BTC_USD", "ETH_USD" }, ticker.Keys);
             var btcUsd = ticker["BTC_USD"];
             Assert.Equal(6670.69590001m, btcUsd.BuyPrice);
             Assert.Equal(6677.42m, btcUsd.SellPrice);
@@ -71,8 +70,8 @@ namespace Exmo.Tests
             Assert.Equal(6987.83212894m, btcUsd.High);
             Assert.Equal(6120.000001m, btcUsd.Low);
             Assert.Equal(6491.6380006m, btcUsd.Avg);
-            Assert.Equal(630.08942001m, btcUsd.Volume);
-            Assert.Equal(4199592.1712305m, btcUsd.VolumeCurrent);
+            Assert.Equal(630.08942001m, btcUsd.Quantity);
+            Assert.Equal(4199592.1712305m, btcUsd.Amount);
             Assert.Equal(1584996175, btcUsd.Updated.ToUnixTimeSeconds());
         }
 
@@ -98,9 +97,9 @@ namespace Exmo.Tests
                 Content = new StringContent("{\"BTC_USD\":{\"min_quantity\":\"0.0001\",\"max_quantity\":\"1000\",\"min_price\":\"1\",\"max_price\":\"30000\",\"max_amount\":\"500000\",\"min_amount\":\"1\",\"price_precision\":8,\"commission_taker_percent\":\"0.2\",\"commission_maker_percent\":\"0.2\"},\"ETH_USD\":{\"min_quantity\":\"0.001\",\"max_quantity\":\"5000\",\"min_price\":\"0.01\",\"max_price\":\"100000\",\"max_amount\":\"500000\",\"min_amount\":\"3\",\"price_precision\":8,\"commission_taker_percent\":\"0.2\",\"commission_maker_percent\":\"0.2\"}}")
             };
 
-            var pairSettings = await _publicApi.GetPairSettingsAsync();
+            var pairSettings = await _publicApi.GetCurrencyPairSettingsAsync();
 
-            Assert.Equal(new Pair[] { "BTC_USD", "ETH_USD" }, pairSettings.Keys);
+            Assert.Equal(new CurrencyPair[] { "BTC_USD", "ETH_USD" }, pairSettings.Keys);
             var btcUsd = pairSettings["BTC_USD"];
             Assert.Equal(0.0001m, btcUsd.MinQuantity);
             Assert.Equal(1000m, btcUsd.MaxQuantity);
@@ -128,12 +127,12 @@ namespace Exmo.Tests
 
             var request = new OrderBookRequest
             {
-                Pairs = new PairCollection("BTC_USD", "ETH_USD"),
+                Pairs = new CurrencyPairCollection("BTC_USD", "ETH_USD"),
                 Limit = 100
             };
             var orderBook = await _publicApi.GetOrderBookAsync(request);
 
-            Assert.Equal(new Pair[] { "BTC_USD", "ETH_USD" }, orderBook.Keys);
+            Assert.Equal(new CurrencyPair[] { "BTC_USD", "ETH_USD" }, orderBook.Keys);
             var btcUsd = orderBook["BTC_USD"];
             Assert.Equal(235.41991633m, btcUsd.AskQuantity);
             Assert.Equal(3088819.24758049m, btcUsd.AskAmount);

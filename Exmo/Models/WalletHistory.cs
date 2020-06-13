@@ -5,17 +5,17 @@ namespace Exmo.Models
     public class WalletHistory
     {
         /// <summary>
-        /// Начало периода.
+        /// Gets or sets the beginning of the period.
         /// </summary>
         public DateTimeOffset Begin { get; set; }
 
         /// <summary>
-        /// Конец периода.
+        /// Gets or sets the end of the period.
         /// </summary>
         public DateTimeOffset End { get; set; }
 
         /// <summary>
-        /// Список операций.
+        /// Gets or sets the operations history.
         /// </summary>
         public WalletOperation[] History { get; set; }
     }

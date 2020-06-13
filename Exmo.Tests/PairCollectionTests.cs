@@ -8,7 +8,7 @@ namespace Exmo.Tests
         [Fact]
         public void DefaultCostructor_CreatesEmptyPairCollection()
         {
-            var pairs = new PairCollection();
+            var pairs = new CurrencyPairCollection();
 
             Assert.Empty(pairs);
         }
@@ -16,7 +16,7 @@ namespace Exmo.Tests
         [Fact]
         public void ToString_ReturnsPairsString()
         {
-            var pairs = new PairCollection("BTC_USD", "ETH_USD");
+            var pairs = new CurrencyPairCollection("BTC_USD", "ETH_USD");
 
             Assert.Equal("BTC_USD,ETH_USD", pairs.ToString());
         }

@@ -1,9 +1,17 @@
 @echo off
 
-for /f %%i in ('git describe --tags --abbrev^=0 --match v[0-9]^*') do set tag=%%i
+set tag=%1
+if [%tag%]==[] (
+  for /f %%i in ('git describe --tags --abbrev^=0 --match v[0-9]*') do set tag=%%i
+)
 echo tag: %tag%
-set version=%tag:~1%
+
+if [%tag%]==[] (
+  rem set default version
+  set version=0.1.0
+) else (
+  set version=%tag:~1%
+)
 echo version: %version%
 
-set version=1.1
 dotnet pack Exmo -c Release -p:Version=%version%

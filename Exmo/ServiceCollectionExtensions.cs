@@ -7,10 +7,8 @@ namespace Exmo
     {
         public static IServiceCollection AddExmoApi(this IServiceCollection services, Action<ExmoOptions> configureOptions = null)
         {
-            services.AddLogging();
-
-            services.AddHttpClient<IApiClient, ApiClient>(HttpClientDefaults.ExmoHttpClientName);
-            services.AddHttpClient<IAuthApiClient, AuthApiClient>(HttpClientDefaults.ExmoHttpClientName);
+            services.AddHttpClient<IApiClient, ApiClient>(ExmoDefaults.HttpClientName);
+            services.AddHttpClient<IAuthenticatedApiClient, AuthenticatedApiClient>(ExmoDefaults.HttpClientName);
             services.AddTransient<IPublicApi, PublicApi>();
             services.AddTransient<IAuthenticatedApi, AuthenticatedApi>();
 

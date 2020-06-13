@@ -3,32 +3,32 @@ namespace Exmo.Models
     public class OrderTrades
     {
         /// <summary>
-        /// Trade type.
+        /// Gets or sets the trade type.
         /// </summary>
         public TradeType Type { get; set; }
 
         /// <summary>
-        /// Входящая валюта.
+        /// Gets or sets the incoming currency.
         /// </summary>
         public string InCurrency { get; set; }
 
         /// <summary>
-        /// Количество входящей валюты.
+        /// Gets or sets the amount of the incoming currency.
         /// </summary>
         public decimal InAmount { get; set; }
 
         /// <summary>
-        /// Исходящая валюта.
+        /// Gets or sets the outcoming currency.
         /// </summary>
         public string OutCurrency { get; set; }
 
         /// <summary>
-        /// Количество исходящей валюты.
+        /// Gets or sets the amount of the outcoming currency.
         /// </summary>
         public decimal OutAmount { get; set; }
 
         /// <summary>
-        /// Список сделок.
+        /// Gets or sets the list of <see cref="OrderTrade"/>.
         /// </summary>
         public OrderTrade[] Trades { get; set; }
     }

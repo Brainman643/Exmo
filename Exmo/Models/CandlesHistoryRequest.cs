@@ -6,23 +6,23 @@ namespace Exmo.Models
     public class CandlesHistoryRequest
     {
         /// <summary>
-        /// Currency pair.
+        /// Gets or sets the currency pair.
         /// </summary>
         [JsonProperty("symbol")]
-        public Pair Pair { get; set; }
+        public CurrencyPair Pair { get; set; }
 
         /// <summary>
-        /// Discreteness of candles.
+        /// Gets or sets the discreteness of candles.
         /// </summary>
         public Resolution Resolution { get; set; }
 
         /// <summary>
-        /// Beginning of period.
+        /// Gets or sets the beginning of the period.
         /// </summary>
         public DateTimeOffset From { get; set; }
 
         /// <summary>
-        /// End of period.
+        /// Gets or sets the end of the period.
         /// </summary>
         public DateTimeOffset To { get; set; }
     }

@@ -17,25 +17,25 @@ namespace Exmo
             _client = client;
         }
 
-        public Task<PairDictionary<Trade[]>> GetTradesAsync(PairCollection pairs, CancellationToken cancellationToken = default)
+        public Task<CurrencyPairDictionary<Trade[]>> GetTradesAsync(CurrencyPairCollection pairs, CancellationToken cancellationToken = default)
         {
             var request = new TradesRequest { Pairs = pairs };
-            return _client.PostAsync<PairDictionary<Trade[]>>("trades", request, cancellationToken);
+            return _client.PostAsync<CurrencyPairDictionary<Trade[]>>("trades", request, cancellationToken);
         }
 
-        public Task<PairDictionary<OrderBook>> GetOrderBookAsync(OrderBookRequest request, CancellationToken cancellationToken = default)
+        public Task<CurrencyPairDictionary<OrderBook>> GetOrderBookAsync(OrderBookRequest request, CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<PairDictionary<OrderBook>>("order_book", request, cancellationToken);
+            return _client.PostAsync<CurrencyPairDictionary<OrderBook>>("order_book", request, cancellationToken);
         }
 
-        public Task<PairDictionary<Ticker>> GetTickerAsync(CancellationToken cancellationToken = default)
+        public Task<CurrencyPairDictionary<Ticker>> GetTickerAsync(CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<PairDictionary<Ticker>>("ticker", null, cancellationToken);
+            return _client.PostAsync<CurrencyPairDictionary<Ticker>>("ticker", null, cancellationToken);
         }
 
-        public Task<PairDictionary<PairSettings>> GetPairSettingsAsync(CancellationToken cancellationToken = default)
+        public Task<CurrencyPairDictionary<CurrencyPairSettings>> GetCurrencyPairSettingsAsync(CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<PairDictionary<PairSettings>>("pair_settings", null, cancellationToken);
+            return _client.PostAsync<CurrencyPairDictionary<CurrencyPairSettings>>("pair_settings", null, cancellationToken);
         }
 
         public Task<string[]> GetCurrenciesAsync(CancellationToken cancellationToken = default)

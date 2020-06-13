@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Exmo.Models;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Xunit;
 
@@ -20,7 +19,7 @@ namespace Exmo.Tests
         {
             _fakeHttpMessageHandler = new FakeHttpMessageHandler();
             _httpClient = new HttpClient(_fakeHttpMessageHandler, true);
-            var apiClient = new AuthApiClient(Options.Create(new ExmoOptions { ApiPublicKey = string.Empty, ApiSecretKey = string.Empty }), _httpClient, new NullLogger<AuthApiClient>());
+            var apiClient = new AuthenticatedApiClient(Options.Create(new ExmoOptions { PublicKey = string.Empty, SecretKey = string.Empty }), _httpClient);
             _authenticatedApi = new AuthenticatedApi(apiClient);
         }
 
@@ -106,7 +105,7 @@ namespace Exmo.Tests
 
             var openOrders = await _authenticatedApi.GetOpenOrdersAsync();
 
-            Assert.Equal(new Pair[] { "BTC_USD" }, openOrders.Keys);
+            Assert.Equal(new CurrencyPair[] { "BTC_USD" }, openOrders.Keys);
             var orders = openOrders["BTC_USD"];
             Assert.Single(orders);
             var order = orders[0];
@@ -276,7 +275,7 @@ namespace Exmo.Tests
 
             var request = new UserTradesRequest
             {
-                Pairs = new PairCollection("BTC_USD")
+                Pairs = new CurrencyPairCollection("BTC_USD")
             };
             var userTrades = await _authenticatedApi.GetUserTradesAsync(request);
 

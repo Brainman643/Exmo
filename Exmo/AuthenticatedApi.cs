@@ -9,7 +9,7 @@ namespace Exmo
     {
         private readonly IApiClient _client;
 
-        public AuthenticatedApi(IAuthApiClient client)
+        public AuthenticatedApi(IAuthenticatedApiClient client)
         {
             _client = client;
         }
@@ -49,14 +49,14 @@ namespace Exmo
             await _client.PostAsync<object>("stop_market_order_cancel", request, cancellationToken);
         }
 
-        public Task<PairDictionary<UserOrder[]>> GetOpenOrdersAsync(CancellationToken cancellationToken = default)
+        public Task<CurrencyPairDictionary<UserOrder[]>> GetOpenOrdersAsync(CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<PairDictionary<UserOrder[]>>("user_open_orders", null, cancellationToken);
+            return _client.PostAsync<CurrencyPairDictionary<UserOrder[]>>("user_open_orders", null, cancellationToken);
         }
 
-        public Task<PairDictionary<OrderTrade[]>> GetUserTradesAsync(UserTradesRequest request, CancellationToken cancellationToken = default)
+        public Task<CurrencyPairDictionary<OrderTrade[]>> GetUserTradesAsync(UserTradesRequest request, CancellationToken cancellationToken = default)
         {
-            return _client.PostAsync<PairDictionary<OrderTrade[]>>("user_trades", request, cancellationToken);
+            return _client.PostAsync<CurrencyPairDictionary<OrderTrade[]>>("user_trades", request, cancellationToken);
         }
 
         public Task<UserOrder[]> GetCancelledOrdersAsync(PagedRequest request, CancellationToken cancellationToken = default)

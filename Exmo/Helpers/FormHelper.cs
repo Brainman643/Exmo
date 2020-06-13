@@ -3,11 +3,11 @@ using System.Linq;
 using Exmo.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Exmo
+namespace Exmo.Helpers
 {
-    public static class JsonToFormUrlEncodedConverter
+    public static class FormHelper
     {
-        public static List<KeyValuePair<string, string>> Convert(object value)
+        public static List<KeyValuePair<string, string>> GetValues(object value)
         {
             if (value is null)
             {
@@ -15,10 +15,10 @@ namespace Exmo
             }
 
             var jToken = JToken.FromObject(value, JsonHelper.Serializer);
-            return Convert(jToken);
+            return GetValues(jToken);
         }
 
-        public static List<KeyValuePair<string, string>> Convert(JToken value)
+        public static List<KeyValuePair<string, string>> GetValues(JToken value)
         {
             return Flatten(value).ToList();
         }

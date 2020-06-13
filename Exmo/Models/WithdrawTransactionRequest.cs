@@ -3,7 +3,7 @@ namespace Exmo.Models
     internal class WithdrawTransactionRequest
     {
         /// <summary>
-        /// Идентификатор купона.
+        /// Gets or sets withdrawal task identifier.
         /// </summary>
         public long TaskId { get; set; }
     }

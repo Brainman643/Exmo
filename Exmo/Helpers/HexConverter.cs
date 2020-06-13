@@ -1,8 +1,8 @@
 using System.Text;
 
-namespace Exmo
+namespace Exmo.Helpers
 {
-    public static class ConvertHelper
+    public static class HexConverter
     {
         public static string ToHexString(byte[] bytes)
         {

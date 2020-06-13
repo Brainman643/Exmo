@@ -5,17 +5,17 @@ namespace Exmo.Models
     public class RequiredAmount
     {
         /// <summary>
-        /// Количество, которое вы сможете купить.
+        /// Gets or sets the quantity to buy.
         /// </summary>
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Сумма, которую вы потратите на покупку.
+        /// Gets or sets the amount to buy.
         /// </summary>
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Средняя цена покупки.
+        /// Gets or sets the average price.
         /// </summary>
         [JsonProperty("avg_price")]
         public decimal AveragePrice { get; set; }

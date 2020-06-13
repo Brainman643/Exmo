@@ -5,6 +5,6 @@ namespace Exmo.Models
     public class UserTradesRequest : PagedRequest
     {
         [JsonProperty("pair")]
-        public PairCollection Pairs { get; set; }
+        public CurrencyPairCollection Pairs { get; set; }
     }
 }

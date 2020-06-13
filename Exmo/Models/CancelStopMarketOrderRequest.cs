@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Exmo.Models
 {
     internal class CancelStopMarketOrderRequest

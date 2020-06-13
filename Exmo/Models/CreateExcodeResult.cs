@@ -6,38 +6,38 @@ namespace Exmo.Models
     public class CreateExcodeResult
     {
         /// <summary>
-        /// Идентификатор купона.
+        /// Gets or sets the task identifier.
         /// </summary>
         public long TaskId { get; set; }
 
         /// <summary>
-        /// Код купона EXCODE.
+        /// Gets or sets the code of the EXCODE coupon.
         /// </summary>
         public string Code { get; set; }
 
         /// <summary>
-        /// Сумма купона.
+        /// Gets or sets the amount in the coupon.
         /// </summary>
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Валюта купона.
+        /// Gets or sets the coupon currency.
         /// </summary>
         public string Currency { get; set; }
 
         /// <summary>
-        /// Логин пользователя, который сможет загрузить купон. Если не указан, кто угодно сможет его погасить.
+        /// Gets or sets the user's login, who can upload the EXCODE coupon (not necessary parameter, if it is present, only this user or its creator can upload the coupon).
         /// </summary>
         [JsonProperty(Required = Required.Default)]
         public string Login { get; set; }
 
         /// <summary>
-        /// Комиссия за создание купона.
+        /// Gets or sets the commission for the EXCODE coupon creation.
         /// </summary>
         public decimal Commission { get; set; }
 
         /// <summary>
-        /// Баланс пользователя после создания купона.
+        /// Gets or sets the user's balances after the EXCODE coupon creation.
         /// </summary>
         public Dictionary<string, decimal> Balances { get; set; }
     }

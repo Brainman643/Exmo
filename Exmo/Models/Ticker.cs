@@ -6,49 +6,49 @@ namespace Exmo.Models
     public class Ticker
     {
         /// <summary>
-        /// Текущая максимальная цена покупки.
+        /// Gets or sets the current maximum buying price.
         /// </summary>
         public decimal BuyPrice { get; set; }
 
         /// <summary>
-        /// Текущая минимальная цена продажи.
+        /// Gets or sets the current minimum selling price.
         /// </summary>
         public decimal SellPrice { get; set; }
 
         /// <summary>
-        /// Цена последней сделки.
+        /// Gets or sets the last trade price.
         /// </summary>
         public decimal LastTrade { get; set; }
 
         /// <summary>
-        /// Максимальная цена сделки за 24 часа.
+        /// Gets or sets the maximum trade price in 24 hours.
         /// </summary>
         public decimal High { get; set; }
 
         /// <summary>
-        /// Минимальная цена сделки за 24 часа.
+        /// Gets or sets the minimum trade price in 24 hours.
         /// </summary>
         public decimal Low { get; set; }
 
         /// <summary>
-        /// Средняя цена сделки за 24 часа.
+        /// Gets or sets the average trade price in 24 hours.
         /// </summary>
         public decimal Avg { get; set; }
 
         /// <summary>
-        /// Объем всех сделок за 24 часа.
+        /// Gets or sets the volume of all trades in a base currency in 24 hours.
         /// </summary>
         [JsonProperty("vol")]
-        public decimal Volume { get; set; }
+        public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Сумма всех сделок за 24 часа.
+        /// Gets or sets the volume of all trades in a quote currency in 24 hours.
         /// </summary>
         [JsonProperty("vol_curr")]
-        public decimal VolumeCurrent { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
-        /// Дата и время обновления данных.
+        /// Gets or sets the date and time of the data update.
         /// </summary>
         public DateTimeOffset Updated { get; set; }
     }

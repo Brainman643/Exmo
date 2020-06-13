@@ -16,7 +16,8 @@
     <Authors>Evgeny Morozov</Authors>
     <IncludeSymbols>true</IncludeSymbols>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon>PackageIcon.svg</PackageIcon>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageIcon>PackageIcon.png</PackageIcon>
     <PackageTags>Exmo;API</PackageTags>
     <RepositoryUrl>https://github.com/Brainman643/Exmo.git</RepositoryUrl>
     <Copyright>Copyright © Evgeny Morozov 2020</Copyright>
@@ -26,6 +27,6 @@
 
   <ItemGroup>
     <None Include="$(SolutionDir)LICENSE" Pack="true" Visible="false" PackagePath="" />
-    <None Include="$(SolutionDir)PackageIcon.svg" Pack="true" Visible="false" PackagePath=""/>
+    <None Include="$(SolutionDir)PackageIcon.png" Pack="true" Visible="false" PackagePath=""/>
   </ItemGroup>
 </Project>

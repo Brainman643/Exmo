@@ -1,4 +1,4 @@
-# <img src="PackageIcon.svg" width="48" style="vertical-align: middle;"> Exmo API Client
+# <img src="PackageIcon.svg" width="48"> Exmo API Client
 
 [![Nuget](https://img.shields.io/nuget/v/Exmo)](https://www.nuget.org/packages/Exmo/)
 ![Build Status](https://img.shields.io/github/workflow/status/Brainman643/Exmo/Build/master)
@@ -9,29 +9,44 @@
 
 ## Описание
 
-Это неофициальный nuget-пакет для доступа к API биржи Exmo.
+Это неофициальный .NET клиент для доступа к API биржи Exmo.
 
 Описание API можно найти сайте https://exmo.me/ru/api
 
-netstandard2.0
+Этот пакет предназначен для .NET Standard 2.0 ([поддерживаемые платформы](https://docs.microsoft.com/ru-ru/dotnet/standard/net-standard#net-implementation-support))
 
-## Подключение
+
+## Установка
+
+### Package Manager
+
+```powershell
+PM> Install-Package Exmo
+```
+
+### .NET Core CLI
+
+```shell
+dotnet add package Exmo
+```
+
+## Регистрация
 
 ### Для ASP.NET Core проекта
 
+В классе `Startup` в методе `ConfigureServices` добавьте следующий код:
+
 ```cs
-services.AddExmoApi();
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddExmoApi();
+}
 ```
 
 ### Для консольного проекта
 
 ```cs
-var configuration = new ConfigurationBuilder()
-    .AddUserSecrets(Assembly.GetExecutingAssembly())
-    .Build();
-
 var serviceProvider = new ServiceCollection()
-    .Configure<ExmoOptions>(configuration)
     .AddExmoApi()
     .BuildServiceProvider();
 
@@ -41,22 +56,81 @@ var authenticatedApi = serviceProvider.GetRequiredService<IAuthenticatedApi>();
 
 ## Настройка
 
-### Явно прописать в коде
+### Хранение прямо в коде
 
-### Использование appsettings.json
+⚠️ Хранение ключей в открытом виде небезопасно.
 
-### Использование UserSecrets
+```cs
+services.AddExmoApi(options => {
+    options.PublicKey = "*****";
+    options.SecretKey = "*****";
+});
+```
+
+### Хранение в файле appsettings.json
+
+Необходимо создать в папке проекта файл `appsettings.json`, и добавить в него секцию Exmo, в которой указать PublicKey и SecretKey:
+
+```json
+{
+  "Exmo": {
+    "PublicKey": "*****",
+    "SecretKey": "*****"
+  }
+}
+
+```
+
+```cs
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+var serviceProvider = new ServiceCollection()
+    .Configure<ExmoOptions>(configuration.GetSection("Exmo"))
+    .AddExmoApi()
+    .BuildServiceProvider();
+```
+
+### Хранение в User Secrets
+
+Для того, чтобы скрыть свои PublicKey и SecretKey можно воспользоваться [User Secrets](https://docs.microsoft.com/ru-ru/aspnet/core/security/app-secrets).
+
+Выполните следующие команды, чтобы добавить в проект user secrets и добавить открытый и закрытый ключи:
+
+```shell
+dotnet user-secrets init
+dotnet user-secrets set "Exmo:PublicKey" "*****"
+dotnet user-secrets set "Exmo:SecretKey" "*****"
+```
+
+Затем в коде написать:
+
+```cs
+var configuration = new ConfigurationBuilder()
+    .AddUserSecrets(Assembly.GetExecutingAssembly())
+    .Build();
+
+var serviceProvider = new ServiceCollection()
+    .Configure<ExmoOptions>(configuration.GetSection("Exmo"))
+    .AddExmoApi()
+    .BuildServiceProvider();
+```
 
 ## Примеры
 
-### Список сделок по валютной паре
+### Использование Public API
+
+Получение списка сделок по валютной паре:
 
 ```cs
-var pairs = new PairCollection("BTC_USD", "ETH_USD");
+var pairs = new CurrencyPairCollection("BTC_USD", "ETH_USD");
 var trades = await publicApi.GetTradesAsync(pairs);
 ```
 
-### Получение списка открытых ордеров пользователя
+### Использование Athenticated API, Wallet API и Excode API
+
+Получение списка открытых ордеров пользователя:
 
 ```cs
 var openOrders = await authenticatedApi.GetOpenOrdersAsync();
@@ -64,9 +138,9 @@ var openOrders = await authenticatedApi.GetOpenOrdersAsync();
 
 ## Обработка ошибок
 
-Методы клиента не возвращают никакого статуса выполнения запроса. Вместо этого, если сервер не может выполнить запрос, то метод бросает исключение `ExmoApiException`. Данное исключение может быть брошено любым методом.
+Методы клиента не возвращают статус выполнения запроса. Вместо этого, если сервер не может выполнить запрос, то метод бросает исключение `ExmoApiException`. Данное исключение может быть брошено любым методом API.
 
-Пример:
+Пример обработки ошибок:
 
 ```cs
 try
@@ -88,6 +162,7 @@ catch (ExmoApiException ex)
 
 ## Логирование
 
+Для логирования HTTP запросов вы можете создать класс, производный от класса [DelegatingHandler](https://docs.microsoft.com/ru-ru/dotnet/api/system.net.http.delegatinghandler). Пример использования можете посмотреть [здесь](Sample).
 
 ## Лицензия
 

@@ -1,49 +1,49 @@
 namespace Exmo.Models
 {
-    public class PairSettings
+    public class CurrencyPairSettings
     {
         /// <summary>
-        /// Минимальное кол-во по ордеру.
+        /// Gets or sets the minimum quantity for the order.
         /// </summary>
         public decimal MinQuantity { get; set; }
 
         /// <summary>
-        /// Максимальное кол-во по ордеру.
+        /// Gets or sets the maximum quantity for the order.
         /// </summary>
         public decimal MaxQuantity { get; set; }
 
         /// <summary>
-        /// Минимальная цена по ордеру.
+        /// Gets or sets the minimum price for the order.
         /// </summary>
         public decimal MinPrice { get; set; }
 
         /// <summary>
-        /// Максимальная цена по ордеру.
+        /// Gets or sets the maximum price for the order.
         /// </summary>
         public decimal MaxPrice { get; set; }
 
         /// <summary>
-        /// Минимальная сумма по ордеру.
+        /// Gets or sets the minimum amount for the order.
         /// </summary>
         public decimal MinAmount { get; set; }
 
         /// <summary>
-        /// Максимальная сумма по ордеру.
+        /// Gets or sets the maximum amount for the order.
         /// </summary>
         public decimal MaxAmount { get; set; }
 
         /// <summary>
-        /// Displays how many decimal places can be used in the price when placing an order.
+        /// Gets or sets the number of decimal places that can be used in the price when placing an order.
         /// </summary>
         public int PricePrecision { get; set; }
 
         /// <summary>
-        /// Taker commission in percent.
+        /// Gets or sets the taker commission percentage.
         /// </summary>
         public decimal CommissionTakerPercent { get; set; }
 
         /// <summary>
-        /// Maker commission in percent.
+        /// Gets or sets the maker commission percentage.
         /// </summary>
         public decimal CommissionMakerPercent { get; set; }
     }

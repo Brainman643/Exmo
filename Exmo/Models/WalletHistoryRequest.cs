@@ -5,7 +5,7 @@ namespace Exmo.Models
     public class WalletHistoryRequest
     {
         /// <summary>
-        /// Дата, за которую нужно получить историю.
+        /// Gets or sets the date to get the history.
         /// </summary>
         public DateTimeOffset Date { get; set; } = DateTimeOffset.UtcNow;
     }
