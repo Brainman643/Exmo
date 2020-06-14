@@ -18,7 +18,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>PackageIcon.png</PackageIcon>
-    <PackageTags>Exmo;API</PackageTags>
+    <PackageTags>Exmo;API;Client</PackageTags>
     <RepositoryUrl>https://github.com/Brainman643/Exmo.git</RepositoryUrl>
     <Copyright>Copyright © Evgeny Morozov 2020</Copyright>
     <SignAssembly>true</SignAssembly>

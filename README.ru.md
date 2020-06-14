@@ -11,20 +11,23 @@
 
 Это неофициальный .NET клиент для доступа к API биржи Exmo.
 
-Описание API можно найти сайте https://exmo.me/ru/api
+Описание API можно найти сайте <https://exmo.me/ru/api>
 
 Этот пакет предназначен для .NET Standard 2.0 ([поддерживаемые платформы](https://docs.microsoft.com/ru-ru/dotnet/standard/net-standard#net-implementation-support))
-
 
 ## Установка
 
 ### Package Manager
+
+Откройте Package Manager Console в Visual Studio и введите следующую команду:
 
 ```powershell
 PM> Install-Package Exmo
 ```
 
 ### .NET Core CLI
+
+Откройте командную строку и введите следующую команду:
 
 ```shell
 dotnet add package Exmo
@@ -78,7 +81,6 @@ services.AddExmoApi(options => {
     "SecretKey": "*****"
   }
 }
-
 ```
 
 ```cs
@@ -104,7 +106,7 @@ dotnet user-secrets set "Exmo:PublicKey" "*****"
 dotnet user-secrets set "Exmo:SecretKey" "*****"
 ```
 
-Затем в коде написать:
+Затем добавьте следующий код:
 
 ```cs
 var configuration = new ConfigurationBuilder()
@@ -121,6 +123,8 @@ var serviceProvider = new ServiceCollection()
 
 ### Использование Public API
 
+Извлеките из контейнера сервис `IPublicApi` для доступа к Public API.
+
 Получение списка сделок по валютной паре:
 
 ```cs
@@ -129,6 +133,8 @@ var trades = await publicApi.GetTradesAsync(pairs);
 ```
 
 ### Использование Athenticated API, Wallet API и Excode API
+
+Извлеките из контейнера сервис `IAuthenticatedApi` для доступа к Athenticated API, Wallet API и Excode API.
 
 Получение списка открытых ордеров пользователя:
 

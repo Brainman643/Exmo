@@ -11,7 +11,7 @@
 
 This is the unofficial .NET client to access API Exmo exchange.
 
-The description of API can be found on https://exmo.me/api
+The description of API can be found on <https://exmo.me/api>
 
 This package targets .NET Standard 2.0 ([see supporting platforms](https://docs.microsoft.com/dotnet/standard/net-standard#net-implementation-support))
 
@@ -83,7 +83,6 @@ Create the file `appsettings.json` in the project folder and add the section Exm
     "SecretKey": "*****"
   }
 }
-
 ```
 
 ```cs
@@ -126,7 +125,7 @@ var serviceProvider = new ServiceCollection()
 
 ### Usage of Public API
 
-Resolve `IPublicApi` to Public API.
+Resolve the `IPublicApi` service to access Public API.
 
 Getting the list of deals by currency pairs:
 
@@ -137,7 +136,7 @@ var trades = await publicApi.GetTradesAsync(pairs);
 
 ### Usage of Athenticated API, Wallet API and Excode API
 
-Resolve `IAuthenticatedApi` to access Athenticated API, Wallet API and Excode API.
+Resolve the `IAuthenticatedApi` to access Athenticated API, Wallet API and Excode API.
 
 Getting the list of the user's open orders:
 
