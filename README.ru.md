@@ -11,7 +11,7 @@
 
 Это неофициальный .NET клиент для доступа к API биржи Exmo.
 
-Описание API можно найти сайте <https://exmo.me/ru/api>
+Описание API можно найти сайте <https://exmo.me/api>
 
 Этот пакет предназначен для .NET Standard 2.0 ([поддерживаемые платформы](https://docs.microsoft.com/ru-ru/dotnet/standard/net-standard#net-implementation-support))
 

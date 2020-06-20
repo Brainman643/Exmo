@@ -18,6 +18,6 @@ jobs:
     - name: Setup tools
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Build and Test
+    - name: Build and test
       run: test.bat
       shell: cmd
