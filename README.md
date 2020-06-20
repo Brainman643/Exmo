@@ -9,7 +9,7 @@
 
 ## Description
 
-This is the unofficial .NET client to access API Exmo exchange.
+This is the unofficial .NET client to access the API for Exmo exchange.
 
 The description of API can be found on <https://exmo.me/api>
 

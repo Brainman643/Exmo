@@ -12,13 +12,13 @@
 
   <PropertyGroup>
     <Title>Exmo API</Title>
-    <PackageDescription>Exmo API</PackageDescription>
+    <PackageDescription>Exmo API .NET Client</PackageDescription>
     <Authors>Evgeny Morozov</Authors>
     <IncludeSymbols>true</IncludeSymbols>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>PackageIcon.png</PackageIcon>
-    <PackageTags>Exmo;API;Client</PackageTags>
+    <PackageTags>EXMO;API;Client;Cryptocurrency;Exchange</PackageTags>
     <RepositoryUrl>https://github.com/Brainman643/Exmo.git</RepositoryUrl>
     <Copyright>Copyright © Evgeny Morozov 2020</Copyright>
     <SignAssembly>true</SignAssembly>
