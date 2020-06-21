@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" />
-    <PackageReference Include="Fody" Version="6.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
@@ -19,9 +16,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>
-        Exmo.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100c10dd39e2f22c312012c3f019257abfaa007c6de5019303a53718decdf84daee67a97b733a0ab2084c5833a9b983ae6ff3e00e7f4e2cf524818196225a18b5b8f90054f2063bd9b057afccfb8a94a67fc4f56e6f0543a4a189de7998565765d785724778b0bb93c2dbb10481bd60ce539093f0fb0084d20b073cd7c1ac4eea9c
-      </_Parameter1>
+      <_Parameter1>Exmo.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100c10dd39e2f22c312012c3f019257abfaa007c6de5019303a53718decdf84daee67a97b733a0ab2084c5833a9b983ae6ff3e00e7f4e2cf524818196225a18b5b8f90054f2063bd9b057afccfb8a94a67fc4f56e6f0543a4a189de7998565765d785724778b0bb93c2dbb10481bd60ce539093f0fb0084d20b073cd7c1ac4eea9c</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
