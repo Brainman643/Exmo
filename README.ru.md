@@ -96,7 +96,7 @@ var serviceProvider = new ServiceCollection()
 
 ### Хранение в User Secrets
 
-Для того, чтобы скрыть свои PublicKey и SecretKey можно воспользоваться [User Secrets](https://docs.microsoft.com/ru-ru/aspnet/core/security/app-secrets).
+Для того чтобы скрыть свои PublicKey и SecretKey, можно воспользоваться [User Secrets](https://docs.microsoft.com/ru-ru/aspnet/core/security/app-secrets).
 
 Выполните следующие команды, чтобы добавить в проект user secrets и добавить открытый и закрытый ключи:
 
