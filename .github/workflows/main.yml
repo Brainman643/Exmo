@@ -21,3 +21,9 @@ jobs:
     - name: Build and test
       run: test.bat
       shell: cmd
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        path-to-lcov: ./TestResults/coverage.info
+        github-token: ${{ secrets.GITHUB_TOKEN }}
