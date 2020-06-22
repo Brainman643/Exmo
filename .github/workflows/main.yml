@@ -25,6 +25,7 @@ jobs:
       run: test.bat
       shell: cmd
       env:
+        GITHUB_ACTIONS1: false
         GITHUB_ACTIONS: false
 
     - name: Coveralls
