@@ -24,9 +24,6 @@ jobs:
     - name: Test
       run: test.bat
       shell: cmd
-      env:
-        GITHUB_ACTIONS1: false
-        GITHUB_ACTIONS: false
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
