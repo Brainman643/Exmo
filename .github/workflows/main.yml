@@ -18,9 +18,14 @@ jobs:
     - name: Setup tools
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Build and test
+    - name: Build
+      run: dotnet build -c Release
+
+    - name: Test
       run: test.bat
       shell: cmd
+      env:
+        GITHUB_ACTIONS: false
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
