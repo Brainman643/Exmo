@@ -18,6 +18,15 @@ jobs:
     - name: Setup tools
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Build and test
+    - name: Build
+      run: dotnet build -c Release
+
+    - name: Test
       run: test.bat
       shell: cmd
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        path-to-lcov: ./TestResults/coverage.info
+        github-token: ${{ secrets.GITHUB_TOKEN }}
