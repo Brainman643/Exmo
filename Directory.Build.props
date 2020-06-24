@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <Title>Exmo API</Title>
-    <PackageDescription>Exmo API .NET Client</PackageDescription>
+    <PackageDescription>Exmo API Client for .NET</PackageDescription>
     <Authors>Evgeny Morozov</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
