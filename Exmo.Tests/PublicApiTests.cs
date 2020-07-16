@@ -240,6 +240,36 @@ namespace Exmo.Tests
             Assert.Equal(0.65390688m, candles[1].Volume);
         }
 
+        [Fact]
+        public async Task GetCandlesHistory_EmptyResponse_ReturnsEmptyArray()
+        {
+            const int fromSeconds = 1549490400;
+            const int toSeconds = 1549494000;
+
+            _fakeHttpMessageHandler.HandleRequestAsync = TestHelper.HandleQueryString(form =>
+            {
+                Assert.Equal("BTC_USDT", form["symbol"]);
+                Assert.Equal("1", form["resolution"]);
+                Assert.Equal(fromSeconds.ToString(CultureInfo.InvariantCulture), form["from"]);
+                Assert.Equal(toSeconds.ToString(CultureInfo.InvariantCulture), form["to"]);
+            });
+            _fakeHttpMessageHandler.ResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("{\"s\":\"no_data\",\"nextTime\":1549488540}")
+            };
+
+            var request = new CandlesHistoryRequest
+            {
+                Pair = "BTC_USDT",
+                Resolution = Resolution.Minute,
+                From = DateTimeOffset.FromUnixTimeSeconds(fromSeconds),
+                To = DateTimeOffset.FromUnixTimeSeconds(toSeconds),
+            };
+            var candles = await _publicApi.GetCandlesHistoryAsync(request);
+
+            Assert.Empty(candles);
+        }
+
         [Theory]
         [InlineData("{\"result\":false,\"error\":\"Error 40013\"}", 40013, "")]
         [InlineData("{\"s\":\"error\",\"errmsg\":\"range period is too long: maximum 3000 candles allowed\"}", null, "range period is too long: maximum 3000 candles allowed")]
