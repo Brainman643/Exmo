@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Exmo.ErrorHandlers;
@@ -52,6 +53,11 @@ namespace Exmo
         {
             var jsonToken = await _client.GetAsync<JToken>("candles_history", request, cancellationToken);
             _candleHistoryErrorHandler.HandleResponse(jsonToken);
+            var errorToken = ((JObject)jsonToken).GetValue("s", StringComparison.OrdinalIgnoreCase);
+            if (errorToken?.Type == JTokenType.String && string.Equals(errorToken.Value<string>(), "no_data", StringComparison.OrdinalIgnoreCase))
+            {
+                return Array.Empty<Candle>();
+            }
             var result =  jsonToken.ToObject<CandlesHistory>(JsonHelper.Serializer);
             return result.Candles;
         }
